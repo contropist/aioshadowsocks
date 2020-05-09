@@ -227,6 +227,14 @@ class BaseAEADCipher(BaseCipher):
         ret.extend(tag)
         return bytes(ret)
 
+    @classmethod
+    def tcp_first_data_len(cls):
+        return cls.SALT_SIZE + 2 + cls.TAG_SIZE
+
+    @classmethod
+    def udp_first_data_len(cls):
+        return cls.tcp_first_data_len() - 2
+
 
 class AESCipher(BaseStreamCipher):
     def new_cipher(self, key: bytes, iv: bytes):

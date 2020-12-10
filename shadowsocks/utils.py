@@ -1,26 +1,12 @@
 import logging
 import socket
 import struct
-from functools import lru_cache
 
 from bloom_filter import BloomFilter
 
 from shadowsocks import protocol_flag as flag
 
 
-def logging_cahce_info():
-    def wrapper(func):
-        def decorated(*args, **kwargs):
-            logging.debug(f"domain:{args[0]} cache_info: {func.cache_info()}")
-            return func(*args, **kwargs)
-
-        return decorated
-
-    return wrapper
-
-
-@logging_cahce_info()
-@lru_cache(2 ** 8)
 def get_ip_from_domain(domain):
     try:
         return socket.gethostbyname(domain.encode())
